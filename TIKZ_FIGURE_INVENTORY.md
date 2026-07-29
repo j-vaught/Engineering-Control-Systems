@@ -19,7 +19,8 @@ The implementation labels used below are:
 
 ### 1.1 Basics of Control System
 
-- [ ] **TikZ:** Process with its input and output.
+- [x] **CeTZ:** Process with its input and output
+  ([source](source_material/figures/src/ch01/ch01_cs_io.typ)).
 - [ ] **TikZ:** Open-loop control system without feedback.
 - [ ] **TikZ:** Closed-loop control system with feedback.
 - [ ] **TikZ:** Multivariable control system with multiple inputs and outputs.

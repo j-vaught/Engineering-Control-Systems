@@ -82,15 +82,12 @@
   stroke: (
     paint: color-force,
     thickness: line-emphasis,
-    cap: "round",
-    join: "round",
+    cap: "butt",
+    join: "miter",
   ),
   mark: (
-    end: ">>",
     fill: color-force,
-    length: arrow-length,
-    width: arrow-width,
-    inset: arrow-inset,
+    ..arrow-small,
   ),
 )
 
@@ -98,14 +95,11 @@
   stroke: (
     paint: color-displacement,
     thickness: line-normal,
-    cap: "round",
-    join: "round",
+    cap: "butt",
+    join: "miter",
   ),
   mark: (
-    end: ">>",
     fill: color-displacement,
-    length: arrow-length,
-    width: arrow-width,
-    inset: arrow-inset,
+    ..arrow-small,
   ),
 )

@@ -11,13 +11,14 @@ Source chapter:
 
 ### Figure 1.1 — Process to Be Controlled
 
-![A process with an input and an output](source_material/figures/control_system_input_output.png)
+[`ch01_cs_io.pdf`](source_material/figures/generated/ch01/ch01_cs_io.pdf)
 
 **Book caption:** Process to be controlled.
 
-**Source:** [`control_system_input_output.png`](source_material/figures/control_system_input_output.png)
+**Source:** [`ch01_cs_io.typ`](source_material/figures/src/ch01/ch01_cs_io.typ)
 
-**Recommended treatment:** Replace with a direct TikZ block diagram.
+**Treatment:** Rebuilt as a direct CeTZ block diagram and imported as a
+standalone half-width PDF.
 
 ---
 

@@ -42,10 +42,20 @@
   ),
 )
 
-#let arrow-sample = cetz-canvas(
+#let arrow-sample(head) = cetz-canvas(
   length: 1pt,
   {
-    draw.line((0, 0), (112, 0), ..diagram-signal-style)
+    draw.line(
+      (0, 0),
+      (112, 0),
+      stroke: (
+        paint: color-primary,
+        thickness: line-emphasis,
+        cap: "butt",
+        join: "miter",
+      ),
+      mark: (fill: color-primary, ..head),
+    )
   },
 )
 
@@ -57,12 +67,12 @@
   #grid(
     columns: 3,
     gutter: 2.5mm,
-    swatch("Primary", color-primary, color-background),
-    swatch("Secondary", color-secondary, color-on-light),
-    swatch("Feedback", color-feedback, color-on-light),
-    swatch("Accent", color-accent, color-on-light),
-    swatch("Gold", color-gold, color-on-light),
-    swatch("Cyan", color-cyan, color-on-light),
+    swatch("Garnet rose", color-garnet-rose, color-background),
+    swatch("Deep teal", color-deep-teal, color-background),
+    swatch("Graphite", color-graphite, color-background),
+    swatch("Brass", color-brass, color-on-light),
+    swatch("Slate", color-slate, color-background),
+    swatch("Cool grey", color-cool-grey, color-on-light),
   )
   #v(3mm)
   #specimen-heading[Neutrals and surfaces]
@@ -91,13 +101,29 @@
     stroke-sample("Emphasis", line-emphasis),
     stroke-sample("Heavy", line-heavy),
     stroke-sample("Dashed guide", line-normal, dash: "dashed"),
+    [],
     grid(
       columns: (25mm, 41mm),
       column-gutter: 3mm,
       align: horizon,
-      figure-small[Stealth arrow],
-      box(width: 41mm, height: 4mm, align(horizon, arrow-sample)),
+      figure-small[Small arrow],
+      box(width: 41mm, height: 4mm, align(horizon, arrow-sample(arrow-small))),
     ),
+    grid(
+      columns: (25mm, 41mm),
+      column-gutter: 3mm,
+      align: horizon,
+      figure-small[Medium arrow],
+      box(width: 41mm, height: 4mm, align(horizon, arrow-sample(arrow-medium))),
+    ),
+    grid(
+      columns: (25mm, 41mm),
+      column-gutter: 3mm,
+      align: horizon,
+      figure-small[Large arrow],
+      box(width: 41mm, height: 4mm, align(horizon, arrow-sample(arrow-large))),
+    ),
+    [],
   )
   #v(3mm)
   #specimen-heading[Typography and mathematics]

@@ -2,23 +2,30 @@
 // Keep literal color definitions in this file so the palette can be changed
 // without editing individual figures.
 
-#let color-ink = rgb("#202124")
-#let color-muted = rgb("#5f6368")
-#let color-primary = rgb("#0072b2")
-#let color-secondary = rgb("#d55e00")
-#let color-tertiary = rgb("#009e73")
-#let color-accent = rgb("#cc79a7")
-#let color-gold = rgb("#e69f00")
-#let color-cyan = rgb("#56b4e9")
+#let color-garnet-rose = rgb("#8b3a4a")
+#let color-deep-teal = rgb("#005f73")
+#let color-graphite = rgb("#25282a")
+#let color-slate = rgb("#50565b")
+#let color-cool-grey = rgb("#7b858c")
+#let color-brass = rgb("#a49137")
+
+#let color-ink = color-graphite
+#let color-muted = color-slate
+#let color-primary = color-garnet-rose
+#let color-secondary = color-deep-teal
+#let color-tertiary = color-brass
+#let color-accent = color-graphite
+#let color-gold = color-slate
+#let color-cyan = color-cool-grey
 #let color-yellow = rgb("#f0e442")
 
 #let color-background = rgb("#ffffff")
 #let color-on-light = rgb("#000000")
-#let color-surface = rgb("#f7f9fb")
-#let color-surface-strong = rgb("#e8eef3")
-#let color-guide = rgb("#7a8288")
-#let color-grid = rgb("#d7dde2")
-#let color-border = rgb("#3f464c")
+#let color-surface = rgb("#f6f6f5")
+#let color-surface-strong = rgb("#e8e9e9")
+#let color-guide = color-cool-grey
+#let color-grid = rgb("#d8dbdc")
+#let color-border = color-slate
 
 #let color-input = color-primary
 #let color-output = color-secondary
@@ -28,10 +35,10 @@
 #let color-mechanical = color-ink
 
 #let plot-color-cycle = (
-  color-primary,
-  color-secondary,
-  color-tertiary,
-  color-accent,
-  color-gold,
-  color-cyan,
+  color-garnet-rose,
+  color-deep-teal,
+  color-graphite,
+  color-brass,
+  color-slate,
+  color-cool-grey,
 )

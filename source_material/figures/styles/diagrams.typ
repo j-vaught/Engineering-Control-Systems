@@ -56,15 +56,12 @@
   stroke: (
     paint: color-primary,
     thickness: line-emphasis,
-    cap: "round",
-    join: "round",
+    cap: "butt",
+    join: "miter",
   ),
   mark: (
-    end: ">>",
     fill: color-primary,
-    length: arrow-length,
-    width: arrow-width,
-    inset: arrow-inset,
+    ..arrow-small,
   ),
 )
 
@@ -72,15 +69,12 @@
   stroke: (
     paint: color-output,
     thickness: line-emphasis,
-    cap: "round",
-    join: "round",
+    cap: "butt",
+    join: "miter",
   ),
   mark: (
-    end: ">>",
     fill: color-output,
-    length: arrow-length,
-    width: arrow-width,
-    inset: arrow-inset,
+    ..arrow-small,
   ),
 )
 
@@ -88,15 +82,12 @@
   stroke: (
     paint: color-feedback,
     thickness: line-emphasis,
-    cap: "round",
-    join: "round",
+    cap: "butt",
+    join: "miter",
   ),
   mark: (
-    end: ">>",
     fill: color-feedback,
-    length: arrow-length,
-    width: arrow-width,
-    inset: arrow-inset,
+    ..arrow-small,
   ),
 )
 
@@ -104,16 +95,13 @@
   stroke: (
     paint: color-primary,
     thickness: line-normal,
-    cap: "round",
-    join: "round",
+    cap: "butt",
+    join: "miter",
   ),
   mark: (
-    start: ">>",
-    end: ">>",
+    start: arrow-head-shape,
     fill: color-primary,
-    length: arrow-length,
-    width: arrow-width,
-    inset: arrow-inset,
+    ..arrow-small,
   ),
 )
 

@@ -19,9 +19,25 @@
 #let line-emphasis = 1.1pt
 #let line-heavy = 1.4pt
 
-#let arrow-length = 5.5pt
-#let arrow-width = 4pt
-#let arrow-inset = 1.2pt
+#let arrow-head-shape = ">>"
+#let arrow-small = (
+  end: arrow-head-shape,
+  length: 5.5pt,
+  width: 4pt,
+  inset: 1.2pt,
+)
+#let arrow-medium = (
+  end: arrow-head-shape,
+  length: 7.5pt,
+  width: 5.5pt,
+  inset: 1.6pt,
+)
+#let arrow-large = (
+  end: arrow-head-shape,
+  length: 9.5pt,
+  width: 7pt,
+  inset: 2.1pt,
+)
 
 #let diagram-unit = 8mm
 #let diagram-block-width = 2.5

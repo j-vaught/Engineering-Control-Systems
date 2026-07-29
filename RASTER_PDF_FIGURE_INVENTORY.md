@@ -12,7 +12,7 @@ chapter outputs, and unused files are excluded.
 
 ### 1.1 Basics of Control System
 
-- **Raster:** [`control_system_input_output.png`](source_material/figures/control_system_input_output.png)
+- **PDF:** [`ch01_cs_io.pdf`](source_material/figures/generated/ch01/ch01_cs_io.pdf)
 - **Raster:** [`control_system_open_loop.png`](source_material/figures/control_system_open_loop.png)
 - **Raster:** [`control_system_closed_loop.png`](source_material/figures/control_system_closed_loop.png)
 - **Raster:** [`control_system_closed_loop_multivariable.png`](source_material/figures/control_system_closed_loop_multivariable.png)

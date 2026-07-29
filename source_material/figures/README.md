@@ -249,6 +249,13 @@ zeros, branch points, and rollers. Mechanical figures should make each
 physical load path and boundary condition explicit—for example, a parallel
 spring and damper must each visibly connect the fixed support to the mass.
 
+The shared arrowhead tokens are `arrow-small`, `arrow-medium`, and
+`arrow-large`. They select the common stealth shape and its head dimensions
+only. Line paint, thickness, dash, cap, and join remain separate stroke
+properties. Standard signal, feedback, force, and displacement styles use
+`arrow-small`; individual figures may combine a larger arrowhead token with
+their own stroke when additional emphasis is required.
+
 ## Visual review and PDF checks
 
 Run:
