@@ -21,11 +21,7 @@
 \usepackage{titlesec}
 \usepackage[most]{tcolorbox}
 
-% defines all example enviorment
-\usepackage[framemethod=tikz]{mdframed} % added for the box around examples
-\newtheorem{ex}{Example}
-\numberwithin{ex}{section} % allows for the use of example numbers that lign up with the section numbers
-\newenvironment{example}{\begin{mdframed}[middlelinewidth=0.5mm]\begin{ex}\normalfont}{\end{ex}\end{mdframed}}
+\usepackage[framemethod=tikz]{mdframed}
 
 % defines the quotation enviorment 
 \usepackage{xcolor}
@@ -35,6 +31,9 @@
 \definecolor{Slate}{HTML}{50565B}
 \definecolor{CoolGrey}{HTML}{7B858C}
 \definecolor{ReviewSurface}{HTML}{F7F7F5}
+\definecolor{Brass}{HTML}{A49137}
+\definecolor{WarmPaper}{HTML}{FCFAF5}
+\definecolor{ExampleSurface}{HTML}{F7F9F9}
 
 \titleformat{\section}
   {\fontsize{20}{23}\selectfont\bfseries\color{Graphite}}
@@ -101,7 +100,82 @@
   \end{tcolorbox}
 }
 
-\newcommand{\quotebox}[2]{\begin{center}\fcolorbox{white}{blue!15!gray!15}{\begin{minipage}{0.9\linewidth}\vspace{10pt}\center\begin{minipage}{0.8\linewidth}{\space\Huge``}{#1}{\Huge''}{\break\null\hfill} {\small #2}  \end{minipage}\medbreak\end{minipage}}\end{center}}
+\newcounter{ex}
+\numberwithin{ex}{section}
+\newenvironment{example}[1][]{
+  \refstepcounter{ex}
+  \setcounter{examplestep}{0}
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=ExampleSurface,
+    colframe=CoolGrey,
+    boxrule=0.65pt,
+    borderline west={3pt}{0pt}{DeepTeal},
+    left=13pt,
+    right=13pt,
+    top=11pt,
+    bottom=11pt,
+    before skip=15pt,
+    after skip=19pt,
+    title={
+      \textcolor{DeepTeal}{\bfseries\footnotesize
+        \MakeUppercase{Example \theex}}
+      \ifstrempty{#1}{}{
+        \hspace{0.55em}\textcolor{Graphite}{\bfseries #1}
+      }
+    },
+    coltitle=Graphite,
+    fonttitle=\normalsize,
+    attach title to upper,
+    after title={\par\vspace{8pt}},
+  ]
+  \normalfont
+}{
+  \end{tcolorbox}
+}
+
+\newcounter{examplestep}
+\providecommand{\theHexamplestep}{\theex.\arabic{examplestep}}
+\newcommand{\examplestep}[1]{
+  \par\vspace{9pt}
+  \refstepcounter{examplestep}
+  \noindent
+  {\textcolor{DeepTeal}{\bfseries\footnotesize
+    STEP \theexamplestep}}
+  \hspace{0.6em}
+  {\bfseries\color{Graphite}#1}
+  \par\vspace{5pt}
+}
+
+\newtcolorbox{bookquote}{
+  enhanced,
+  sharp corners,
+  frame hidden,
+  colback=WarmPaper,
+  borderline north={0.8pt}{0pt}{Brass},
+  borderline south={0.8pt}{0pt}{Brass},
+  left=20pt,
+  right=20pt,
+  top=8pt,
+  bottom=7pt,
+  before skip=8pt,
+  after skip=10pt,
+}
+
+\newcommand{\quotebox}[2]{
+  \begin{bookquote}
+    \centering
+    \begin{minipage}{0.88\linewidth}
+      \centering
+      {\fontsize{14}{17}\selectfont\itshape
+        ``#1''\par}
+      \vspace{4pt}
+      \raggedleft{\small\textcolor{Slate}{--- #2}\par}
+    \end{minipage}
+  \end{bookquote}
+}
 
 % defines the definition enviorment 
 \newcommand{\definitionbox}[2]{\begin{center}\fcolorbox{white}{blue!15!gray!15}{\begin{minipage}{0.9\linewidth}\vspace{10pt}\center\begin{minipage}{0.8\linewidth} {{\textbf{Definition} - }{#1}: {#2}}\end{minipage}\medbreak\end{minipage}}\end{center}}
@@ -186,10 +260,6 @@
 \newcommand{\Laplace}[1]{\ensuremath{\mathcal{L}{\left[#1\right]}}}
 \newcommand{\InvLap}[1]{\ensuremath{\mathcal{L}^{-1}{\left[#1\right]}}}
 \renewcommand{\textuparrow}{$\uparrow$}
-
-
-
-
 
 
 
