@@ -51,7 +51,14 @@
 \usepackage{wrapfig}
 \usepackage{setspace}
 \usepackage[hyphens]{url}
-\usepackage[colorlinks=true]{hyperref}
+\definecolor{GarnetRose}{HTML}{8B3A4A}
+\definecolor{DeepTeal}{HTML}{005F73}
+\usepackage[
+  colorlinks=true,
+  linkcolor=DeepTeal,
+  citecolor=GarnetRose,
+  urlcolor=DeepTeal
+]{hyperref}
 \usepackage{textcomp} 
 \usepackage{caption}
 \usepackage{multicol} 
@@ -110,7 +117,6 @@
 \newcommand{\Laplace}[1]{\ensuremath{\mathcal{L}{\left[#1\right]}}}
 \newcommand{\InvLap}[1]{\ensuremath{\mathcal{L}^{-1}{\left[#1\right]}}}
 \renewcommand{\textuparrow}{$\uparrow$}
-
 
 
 
