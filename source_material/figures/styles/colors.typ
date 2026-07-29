@@ -31,7 +31,7 @@
 #let color-output = color-secondary
 #let color-feedback = color-tertiary
 #let color-force = color-secondary
-#let color-displacement = color-primary
+#let color-displacement = color-secondary
 #let color-mechanical = color-ink
 
 #let plot-color-cycle = (

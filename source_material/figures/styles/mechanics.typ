@@ -54,7 +54,7 @@
 
 #let mechanics-support-style = (
   stroke: (
-    paint: color-border,
+    paint: color-on-light,
     thickness: line-heavy,
     cap: "square",
     join: "round",

@@ -20,26 +20,20 @@
 
       draw.content((0, 6), anchor: "west", text(weight: "bold")[Torsional spring])
       torsional-spring((18, -3), turns: 2.75)
-      angular-displacement-indicator(
-        (18, -3),
-        radius: 8,
-        start: -30deg,
-        stop: 55deg,
-      )
 
       draw.content((104, 48), anchor: "west", text(weight: "bold")[Dampers])
-      viscous-damper((104, 40), length: 25, body-height: 3.4)
+      viscous-damper((104, 40), length: 25, body-width: 7)
       viscous-damper(
         (111, 10),
         length: 25,
         angle: 90deg,
-        body-height: 3.4,
+        body-width: 7,
       )
       viscous-damper(
         (139, 18),
         length: 25,
         angle: 135deg,
-        body-height: 3.4,
+        body-width: 7,
       )
 
       draw.content((104, 6), anchor: "west", text(weight: "bold")[Displacement])

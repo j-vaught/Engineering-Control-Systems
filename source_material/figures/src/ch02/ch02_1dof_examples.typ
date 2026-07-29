@@ -2,6 +2,34 @@
 
 // figure-pipeline: kind=mechanics
 // figure-pipeline: width-profile=full
+#let angular-cue(origin, radius, start, stop, label) = {
+  let start-point = (
+    origin.at(0) + radius * calc.cos(start),
+    origin.at(1) + radius * calc.sin(start),
+  )
+  draw.arc(
+    start-point,
+    start: start,
+    stop: stop,
+    radius: radius,
+    stroke: (
+      paint: color-displacement,
+      thickness: line-normal,
+      cap: "butt",
+      join: "miter",
+    ),
+    mark: (fill: color-displacement, ..arrow-medium),
+  )
+  let middle = (start + stop) / 2
+  draw.content(
+    (
+      origin.at(0) + (radius + 2.2) * calc.cos(middle),
+      origin.at(1) + (radius + 2.2) * calc.sin(middle),
+    ),
+    text(fill: color-on-light)[#label],
+  )
+}
+
 #standalone(
   box(
     width: figure-content-width("full"),
@@ -31,10 +59,11 @@
             length: 24,
           )
           displacement-indicator(
-            (ax - 13, 37),
+            (ax - 12, 31),
             length: 8,
             angle: -90deg,
             label: [$x$],
+            label-offset: -2,
             extension: 1.6,
           )
           draw.content((ax + 5.2, 19), [$k$])
@@ -42,18 +71,18 @@
 
           // (b) Pendulum with a horizontal restoring spring.
           let bx = 80
-          let pivot-y = 43
-          let bob-y = 12
+          let pivot-y = 47
+          let bob-y = 16
+          let pendulum-length = pivot-y - bob-y
+          let displaced-angle = -57deg
+          let displaced-bob = (
+            bx + pendulum-length * calc.cos(displaced-angle),
+            pivot-y + pendulum-length * calc.sin(displaced-angle),
+          )
           fixed-support(
             (bx - 27, 47),
             length: 51,
             hatch-side: 1,
-          )
-          draw.circle(
-            (bx, pivot-y),
-            radius: 1.05,
-            fill: color-mechanical,
-            stroke: none,
           )
           draw.line((bx, pivot-y), (bx, bob-y), ..mechanics-line-style)
           draw.circle(
@@ -65,8 +94,8 @@
               thickness: line-emphasis,
             ),
           )
-          draw.content((bx + 6.2, bob-y + 1.5), [$m$])
-          draw.content((bx - 2.7, 27.5), [$l$])
+          draw.content((bx, bob-y), [$m$])
+          draw.content((bx - 2.7, (pivot-y + bob-y) / 2), [$l$])
 
           // Spring from the fixed wall to the equilibrium position.
           fixed-support(
@@ -77,7 +106,7 @@
           )
           linear-spring(
             (bx - 27, bob-y),
-            length: 23,
+            length: 22.3,
             coils: 6,
             amplitude: 2.1,
             lead: 4,
@@ -85,56 +114,43 @@
           draw.content((bx - 15.5, bob-y + 5), [$k$])
 
           // Displaced configuration and angular coordinate.
-          draw.line(
-            (bx, pivot-y),
-            (bx + 20, 15),
-            ..mechanics-reference-style,
-          )
           draw.circle(
-            (bx + 20, 15),
+            displaced-bob,
             radius: 4.7,
+            name: "displaced-bob",
             fill: none,
             stroke: mechanics-reference-style.stroke,
           )
-          angular-displacement-indicator(
+          draw.line(
             (bx, pivot-y),
-            radius: 11,
-            start: -90deg,
-            stop: -57deg,
-            label: [$theta$],
+            "displaced-bob",
+            ..mechanics-reference-style,
+          )
+          // Draw the pivot last so both pendulum rods terminate beneath it.
+          draw.circle(
+            (bx, pivot-y),
+            radius: 1.05,
+            fill: color-mechanical,
+            stroke: none,
+          )
+          angular-cue(
+            (bx, pivot-y),
+            18,
+            -90deg,
+            -57deg,
+            [$theta$],
           )
           draw.content((bx, 0.4), [(b)])
 
           // (c) Torsional spring--inertia oscillator.
           let cx = 137
-          fixed-support(
-            (cx - 13, 23),
-            length: 20,
-            direction: 90,
-            hatch-side: 1,
-          )
-          torsional-spring(
-            (cx, 32),
-            turns: 2.75,
-            outer-radius: 5,
-            inner-radius: 1.4,
-            lead: 8,
-          )
-          draw.line((cx, 32), (cx, 22), ..mechanics-line-style)
-          draw.rect(
-            (cx - 9, 8),
-            (cx + 9, 22),
-            ..mechanics-body-style,
-          )
-          draw.content((cx, 17.2), [$m$])
-          draw.content((cx, 12.7), [$J$])
-          draw.content((cx + 7.5, 35), [$k_theta$])
-          angular-displacement-indicator(
-            (cx, 15),
-            radius: 8,
-            start: 150deg,
-            stop: 390deg,
-            label: [$theta$],
+          torsional-suspension(
+            (cx, 47),
+            length: 2.7cm,
+            support-width: 2.6cm,
+            coils: 8,
+            body-width: 18,
+            body-height: 14,
           )
           draw.content((cx, 0.4), [(c)])
         },

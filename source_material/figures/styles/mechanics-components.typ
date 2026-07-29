@@ -105,32 +105,65 @@
   })
 }
 
-// Viscous dashpot. The piston begins at the origin and the closed cylinder
-// end terminates at origin + length along the selected orientation.
+// Viscous dashpot with equal external connector lengths at both ends.
+// Only the total assembly length is required. The approved body geometry
+// remains available as optional overrides for unusual figures.
 #let viscous-damper(
   origin,
-  length: 18,
+  length: 3cm,
   angle: 0deg,
-  body-length: 9,
-  body-height: 4,
+  body-length: 4mm,
+  body-width: 7mm,
+  wall-clearance: 0.5mm,
   piston-position: 0.48,
-) = mechanics-frame(origin, angle, {
-  let cylinder-start = length - body-length
-  let piston-x = cylinder-start + body-length * piston-position
-  draw.line((0, 0), (piston-x, 0), ..mechanics-damper-style)
-  draw.line(
-    (piston-x, -body-height * 0.42),
-    (piston-x, body-height * 0.42),
-    ..mechanics-damper-style,
+) = {
+  let rendered-length = mechanics-mm(length)
+  let cylinder-length = mechanics-mm(body-length)
+  let cylinder-width = mechanics-mm(body-width)
+  let clearance = mechanics-mm(wall-clearance)
+  let connector = (rendered-length - cylinder-length) / 2
+  let cylinder-start = connector
+  let cylinder-end = rendered-length - connector
+  let piston-half-height = cylinder-width / 2 - clearance
+  assert(
+    cylinder-length > 0 and connector > 0,
+    message: "damper body length must be shorter than its overall length",
   )
-  draw.line(
-    (cylinder-start, -body-height / 2),
-    (length, -body-height / 2),
-    (length, body-height / 2),
-    (cylinder-start, body-height / 2),
-    ..mechanics-damper-style,
+  assert(
+    piston-half-height > 0,
+    message: "wall clearance must be less than half the damper body height",
   )
-})
+  assert(
+    piston-position > 0 and piston-position < 1,
+    message: "piston-position must be between 0 and 1",
+  )
+  let piston-x = cylinder-start + cylinder-length * piston-position
+  mechanics-frame(origin, angle, {
+    // Draw both external connections and the piston rod first.
+    draw.line((0, 0), (piston-x, 0), ..mechanics-damper-style)
+    draw.line(
+      (cylinder-end, 0),
+      (rendered-length, 0),
+      ..mechanics-damper-style,
+    )
+
+    // The piston plate stops short of both cylinder walls by wall-clearance.
+    draw.line(
+      (piston-x, -piston-half-height),
+      (piston-x, piston-half-height),
+      ..mechanics-damper-style,
+    )
+
+    // Open cylinder at the rod side; closed cylinder at the output side.
+    draw.line(
+      (cylinder-start, -cylinder-width / 2),
+      (cylinder-end, -cylinder-width / 2),
+      (cylinder-end, cylinder-width / 2),
+      (cylinder-start, cylinder-width / 2),
+      ..mechanics-damper-style,
+    )
+  })
+}
 
 // Planar torsional spring symbol. The outer connection is tangent to the
 // first coil; the inner connection ends at the rotational axis.
@@ -158,6 +191,83 @@
   draw.line(..points, ..mechanics-spring-style)
 })
 
+// Suspended torsional oscillator. The vertical zigzag is the conventional
+// side-view symbol for a torsional element; the curved cue and k_theta label
+// distinguish it from a translating spring--mass system.
+#let torsional-suspension(
+  origin,
+  length: 3cm,
+  support-width: 2cm,
+  coils: 6,
+  spring-amplitude: 2,
+  body-width: 14,
+  body-height: 10,
+  label: [$m$ #linebreak() $J$],
+) = {
+  let x = origin.at(0)
+  let y = origin.at(1)
+  let suspension-length = mechanics-mm(length)
+  let ceiling-width = mechanics-mm(support-width)
+  let body-top = y - suspension-length
+
+  linear-spring(
+    (x, y),
+    length: suspension-length,
+    angle: -90deg,
+    coils: coils,
+    amplitude: spring-amplitude,
+    lead: 3,
+  )
+  // Draw the ceiling edge last so the spring terminates cleanly beneath it.
+  fixed-support(
+    (x - ceiling-width / 2, y),
+    length: ceiling-width,
+    direction: 0,
+    hatch-side: 1,
+  )
+  draw.rect(
+    (x - body-width / 2, body-top - body-height),
+    (x + body-width / 2, body-top),
+    ..mechanics-body-style,
+  )
+  draw.content((x, body-top - body-height / 2), label)
+
+  // Rotation cue is intentionally local to this physical symbol; there is no
+  // general angular-displacement component in the public mechanics API.
+  let cue-radius-x = body-width * 0.50
+  let cue-radius-y = cue-radius-x * 0.38
+  let cue-origin = (x, y - suspension-length * 0.55 - 1.3)
+  let cue-start = 165deg
+  let cue-stop = 450deg
+  let cue-start-point = (
+    cue-origin.at(0) + cue-radius-x * calc.cos(cue-start),
+    cue-origin.at(1) + cue-radius-y * calc.sin(cue-start),
+  )
+  draw.arc(
+    cue-start-point,
+    start: cue-start,
+    stop: cue-stop,
+    radius: (cue-radius-x, cue-radius-y),
+    stroke: (
+      paint: color-displacement,
+      thickness: line-normal,
+      cap: "butt",
+      join: "miter",
+    ),
+    mark: (fill: color-displacement, ..arrow-medium),
+  )
+  draw.content(
+    (x - cue-radius-x - 2, cue-origin.at(1) + 1.8),
+    anchor: "east",
+    text(fill: color-on-light)[$theta$],
+  )
+  draw.content(
+    (x + spring-amplitude + 2.5, y - suspension-length * 0.32),
+    anchor: "west",
+    [$k_theta$],
+  )
+}
+
 // Linear displacement measured from a datum to a displaced position.
 #let displacement-indicator(
   origin,
@@ -165,18 +275,18 @@
   angle: 0deg,
   label: [$x$],
   offset: 0,
+  label-offset: 2,
   extension: 2.5,
   arrow: arrow-medium,
 ) = mechanics-frame(origin, angle, {
   draw.line(
     (0, -extension),
     (0, extension),
-    ..mechanics-reference-style,
-  )
-  draw.line(
-    (length, -extension),
-    (length, extension),
-    ..mechanics-reference-style,
+    stroke: (
+      paint: color-displacement,
+      thickness: line-normal,
+      cap: "butt",
+    ),
   )
   draw.line(
     (0, offset),
@@ -185,38 +295,7 @@
     mark: (fill: color-displacement, ..arrow),
   )
   draw.content(
-    (length / 2, offset + 2),
+    (length / 2, offset + label-offset),
     label,
   )
 })
-
-// Angular displacement about an origin.
-#let angular-displacement-indicator(
-  origin,
-  radius: 7,
-  start: 0deg,
-  stop: 60deg,
-  label: [$theta$],
-  arrow: arrow-medium,
-) = {
-  let start-point = (
-    origin.at(0) + radius * calc.cos(start),
-    origin.at(1) + radius * calc.sin(start),
-  )
-  draw.arc(
-    start-point,
-    start: start,
-    stop: stop,
-    radius: radius,
-    stroke: mechanics-displacement-style.stroke,
-    mark: (fill: color-displacement, ..arrow),
-  )
-  let middle = (start + stop) / 2
-  draw.content(
-    (
-      origin.at(0) + (radius + 2.2) * calc.cos(middle),
-      origin.at(1) + (radius + 2.2) * calc.sin(middle),
-    ),
-    label,
-  )
-}

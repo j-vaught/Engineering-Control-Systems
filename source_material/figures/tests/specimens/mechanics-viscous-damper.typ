@@ -6,25 +6,22 @@
     length: 1mm,
     {
       viscous-damper(
-        (0, 21),
-        length: 28,
-        body-height: 3.4,
+        (0, 23),
+        length: 3cm,
       )
-      draw.content((14, 16), [horizontal])
+      draw.content((15, 14), [horizontal])
 
       viscous-damper(
         (44, 3),
-        length: 28,
+        length: 3cm,
         angle: 90deg,
-        body-height: 3.4,
       )
       draw.content((44, -1), [vertical])
 
       viscous-damper(
         (72, 5),
-        length: 28,
+        length: 3cm,
         angle: 40deg,
-        body-height: 3.4,
       )
       draw.content((83, 1), [inclined])
     },
