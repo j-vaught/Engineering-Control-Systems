@@ -18,6 +18,8 @@
 \usepackage[final]{pdfpages}
 
 \usepackage[textsize=tiny]{todonotes}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
 
 % defines all example enviorment
 \usepackage[framemethod=tikz]{mdframed} % added for the box around examples
@@ -25,14 +27,80 @@
 \numberwithin{ex}{section} % allows for the use of example numbers that lign up with the section numbers
 \newenvironment{example}{\begin{mdframed}[middlelinewidth=0.5mm]\begin{ex}\normalfont}{\end{ex}\end{mdframed}}
 
-% defines all review enviorment
-\usepackage[framemethod=tikz]{mdframed} % added for the box around examples
-\newtheorem{re}{Review}
-\numberwithin{re}{section} % allows for the use of example numbers that lign up with the section numbers
-\newenvironment{review}{\begin{mdframed}[middlelinewidth=2mm,roundcorner=20pt]\begin{re}\normalfont}{\end{re}\end{mdframed}}
-
 % defines the quotation enviorment 
 \usepackage{xcolor}
+\definecolor{GarnetRose}{HTML}{8B3A4A}
+\definecolor{DeepTeal}{HTML}{005F73}
+\definecolor{Graphite}{HTML}{25282A}
+\definecolor{Slate}{HTML}{50565B}
+\definecolor{CoolGrey}{HTML}{7B858C}
+\definecolor{ReviewSurface}{HTML}{F7F7F5}
+
+\titleformat{\section}
+  {\fontsize{20}{23}\selectfont\bfseries\color{Graphite}}
+  {\thesection}
+  {0.8em}
+  {}
+  [\vspace{4pt}{\color{DeepTeal}\titlerule[1.1pt]}]
+\titlespacing*{\section}{0pt}{0pt}{16pt}
+
+\titleformat{\subsection}
+  {\fontsize{14}{17}\selectfont\bfseries\color{Graphite}}
+  {\thesubsection}
+  {0.75em}
+  {}
+\titlespacing*{\subsection}{0pt}{22pt}{7pt}
+
+\titleformat{\subsubsection}
+  {\fontsize{12}{15}\selectfont\bfseries\color{Graphite}}
+  {\thesubsubsection}
+  {0.7em}
+  {}
+\titlespacing*{\subsubsection}{0pt}{17pt}{5pt}
+
+\newcounter{re}
+\numberwithin{re}{section}
+\newenvironment{review}[1][]{
+  \refstepcounter{re}
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=ReviewSurface,
+    colframe=CoolGrey,
+    boxrule=0.65pt,
+    borderline west={3pt}{0pt}{GarnetRose},
+    left=13pt,
+    right=13pt,
+    top=11pt,
+    bottom=10pt,
+    before skip=15pt,
+    after skip=19pt,
+    title={
+      \textcolor{GarnetRose}{\bfseries\footnotesize
+        \MakeUppercase{Review \there}}
+      \ifstrempty{#1}{}{
+        \hspace{0.55em}\textcolor{Graphite}{\bfseries #1}
+      }
+    },
+    coltitle=Graphite,
+    fonttitle=\normalsize,
+    attach title to upper,
+    after title={\par\vspace{8pt}},
+  ]
+  \normalfont
+  \setlist[enumerate,1]{
+    label=\textcolor{GarnetRose}{\bfseries\arabic*.},
+    leftmargin=2em,
+    labelsep=0.65em,
+    itemsep=6pt,
+    topsep=0pt,
+    parsep=0pt
+  }
+}{
+  \end{tcolorbox}
+}
+
 \newcommand{\quotebox}[2]{\begin{center}\fcolorbox{white}{blue!15!gray!15}{\begin{minipage}{0.9\linewidth}\vspace{10pt}\center\begin{minipage}{0.8\linewidth}{\space\Huge``}{#1}{\Huge''}{\break\null\hfill} {\small #2}  \end{minipage}\medbreak\end{minipage}}\end{center}}
 
 % defines the definition enviorment 
@@ -51,8 +119,6 @@
 \usepackage{wrapfig}
 \usepackage{setspace}
 \usepackage[hyphens]{url}
-\definecolor{GarnetRose}{HTML}{8B3A4A}
-\definecolor{DeepTeal}{HTML}{005F73}
 \usepackage[
   colorlinks=true,
   linkcolor=DeepTeal,
@@ -81,7 +147,10 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[L]{Engineering Control Systems}
-\fancyhead[R]{\rightmark}
+\fancyhead[R]{\nouppercase{\leftmark}}
+\renewcommand{\sectionmark}[1]{%
+  \markboth{Chapter \thesection\ \textperiodcentered\ #1}{}}
+\renewcommand{\headrulewidth}{0.45pt}
 
 %%%%%%%		define the symbols for positive directions		%%%%%%
 \makeatletter													%%	
@@ -117,7 +186,6 @@
 \newcommand{\Laplace}[1]{\ensuremath{\mathcal{L}{\left[#1\right]}}}
 \newcommand{\InvLap}[1]{\ensuremath{\mathcal{L}^{-1}{\left[#1\right]}}}
 \renewcommand{\textuparrow}{$\uparrow$}
-
 
 
 
