@@ -74,24 +74,36 @@
 // Axial spring with straight leads at both ends.
 #let linear-spring(
   origin,
-  length: 18,
+  length: 2cm,
   angle: 0deg,
   coils: 7,
   amplitude: 2,
   lead: 3,
-) = mechanics-frame(origin, angle, {
-  let working = length - 2 * lead
-  let half-waves = 2 * coils
-  let points = ((0, 0), (lead, 0))
-  for index in range(1, half-waves) {
-    let x = lead + working * index / half-waves
-    let y = if calc.rem(index, 2) == 1 { amplitude } else { -amplitude }
-    points.push((x, y))
-  }
-  points.push((length - lead, 0))
-  points.push((length, 0))
-  draw.line(..points, ..mechanics-spring-style)
-})
+) = {
+  let rendered-length = mechanics-mm(length)
+  let lead-length = mechanics-mm(lead)
+  assert(
+    rendered-length > 2 * lead-length,
+    message: "spring length is too short for the selected leads",
+  )
+  mechanics-frame(origin, angle, {
+    let working = rendered-length - 2 * lead-length
+    let peak-count = 2 * coils
+    let peak-spacing = working / peak-count
+    let points = ((0, 0), (lead-length, 0))
+
+    // Peak centers are offset by half a pitch from both coil endpoints. This
+    // makes the first and last half-coils equal and removes endpoint crowding.
+    for index in range(peak-count) {
+      let x = lead-length + (index + 0.5) * peak-spacing
+      let y = if calc.rem(index, 2) == 0 { amplitude } else { -amplitude }
+      points.push((x, y))
+    }
+    points.push((rendered-length - lead-length, 0))
+    points.push((rendered-length, 0))
+    draw.line(..points, ..mechanics-spring-style)
+  })
+}
 
 // Viscous dashpot. The piston begins at the origin and the closed cylinder
 // end terminates at origin + length along the selected orientation.

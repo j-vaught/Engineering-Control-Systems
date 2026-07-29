@@ -5,24 +5,32 @@
   cetz-canvas(
     length: 1mm,
     {
-      linear-spring((0, 18), length: 28, coils: 8)
-      draw.content((14, 13), [horizontal])
-
+      draw.content((0, 28), anchor: "west", text(weight: "bold")[2 cm])
       linear-spring(
-        (43, 2),
-        length: 28,
-        angle: 90deg,
+        (18, 28),
+        length: 2cm,
         coils: 8,
+        amplitude: 2,
+        lead: 3,
       )
-      draw.content((43, -2), [vertical])
 
+      draw.content((0, 17), anchor: "west", text(weight: "bold")[3 cm])
       linear-spring(
-        (68, 5),
-        length: 28,
-        angle: 35deg,
+        (18, 17),
+        length: 3cm,
         coils: 8,
+        amplitude: 2,
+        lead: 3,
       )
-      draw.content((79, 1), [inclined])
+
+      draw.content((0, 6), anchor: "west", text(weight: "bold")[4 cm])
+      linear-spring(
+        (18, 6),
+        length: 4cm,
+        coils: 8,
+        amplitude: 2,
+        lead: 3,
+      )
     },
   )
 )
