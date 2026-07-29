@@ -4,6 +4,7 @@
 #import "dimensions.typ": *
 #import "diagrams.typ": *
 #import "mechanics.typ": *
+#import "mechanics-components.typ": *
 #import "plots.typ": *
 
 #let cetz-canvas = cetz.canvas

@@ -303,7 +303,10 @@ def policy_errors() -> list[str]:
         for figure in discover_all()
     }
     allowed_lilaq = STYLE_ROOT / "plots.typ"
-    allowed_cetz = STYLE_ROOT / "figure.typ"
+    allowed_cetz = {
+        (STYLE_ROOT / "figure.typ").resolve(),
+        (STYLE_ROOT / "mechanics-components.typ").resolve(),
+    }
     allowed_colors = STYLE_ROOT / "colors.typ"
     allowed_page = STYLE_ROOT / "figure.typ"
 
@@ -331,9 +334,10 @@ def policy_errors() -> list[str]:
                 errors.append(
                     f"{relative}: only styles/plots.typ may import Lilaq"
                 )
-            if package == "cetz" and source.resolve() != allowed_cetz.resolve():
+            if package == "cetz" and source.resolve() not in allowed_cetz:
                 errors.append(
-                    f"{relative}: only styles/figure.typ may import CeTZ"
+                    f"{relative}: only styles/figure.typ and "
+                    "styles/mechanics-components.typ may import CeTZ"
                 )
 
         if source.resolve() != allowed_lilaq.resolve() and re.search(
