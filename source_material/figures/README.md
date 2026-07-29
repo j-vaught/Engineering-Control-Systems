@@ -242,6 +242,11 @@ them with CeTZ's native anchors. This keeps unusual engineering diagrams
 possible without requiring a custom routing engine. Add a higher-level helper
 only after a repeated construction has a stable visual and semantic pattern.
 
+The standard negative-feedback summing junction is available as
+`summing-node(position, name: "sum", radius: diagram-node-radius)`. It creates
+the named circular node together with its black plus and minus symbols, so
+figures only need to connect signals to the node's native CeTZ boundary.
+
 Shared signal, force, and displacement styles use stealth arrowheads.
 Rectangular blocks, bodies, swatches, frames, and legends use square corners;
 round forms are reserved for semantic elements such as summing nodes, poles,

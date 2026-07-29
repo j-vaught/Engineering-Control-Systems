@@ -40,7 +40,7 @@
 #let diagram-summing-style = (
   fill: color-background,
   stroke: (
-    paint: color-border,
+    paint: color-on-light,
     thickness: line-normal,
     cap: "round",
     join: "round",
@@ -74,6 +74,19 @@
   ),
   mark: (
     fill: color-output,
+    ..arrow-small,
+  ),
+)
+
+#let diagram-internal-style = (
+  stroke: (
+    paint: color-slate,
+    thickness: line-emphasis,
+    cap: "butt",
+    join: "miter",
+  ),
+  mark: (
+    fill: color-slate,
     ..arrow-small,
   ),
 )

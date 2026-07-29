@@ -5,12 +5,7 @@
   cetz-canvas(
     length: diagram-unit,
     {
-      draw.circle(
-        (0, 0),
-        radius: diagram-node-radius,
-        name: "sum",
-        ..diagram-summing-style,
-      )
+      summing-node((0, 0), name: "sum")
       draw.rect(
         (1, -diagram-block-height / 2),
         (1 + diagram-block-width, diagram-block-height / 2),
@@ -45,8 +40,6 @@
 
       draw.content((2.25, 0), [Controller])
       draw.content((5.75, 0), [Plant])
-      draw.content((-0.17, 0.08), [$+$])
-      draw.content((0, -0.17), [$-$])
       draw.content((-1.15, 0.35), [$r(t)$])
       draw.content((0.5, 0.35), [$e(t)$])
       draw.content((4, 0.35), [$u(t)$])
