@@ -237,7 +237,7 @@ The time domain response of a system to an arbitrary input force in time can be 
 
 
 
-\begin{example}
+\begin{example}[Double-Impact Response]
 
 
 In testing, an hammer is used to excite a 1-DOF system with an impact (i.e. impulse), however, the hammer ascendantly impacts the system twice. The first impact has a force of 0.2 N, while the second has a force of 0.1 N and happens 0.1 seconds after the first impact. Plot the response for the double impact. The system has the parameters $m$ = 1 kg, $c$ = 0.5 kg/s, k = 4 N/m. 
@@ -1051,7 +1051,7 @@ While the amplitude of the frequency response is:
 H(\omega) = |H(j\omega)| = \frac{1}{\sqrt{(k-m\omega^2)^2+c^2\omega^2}}
 \end{eqnarray}
 
-\begin{example}
+\begin{example}[Sinusoidally Forced Spring--Mass--Damper System]
 	Considering the forced system:
 	\begin{figure}[H]
 		\centering
@@ -1187,7 +1187,7 @@ S_{xx}(\omega) =  |H(j\omega)|^2 S_{ff}(\omega)
 where $R_{ff}$ denotes the autocorrelation function of $F(t)$ and $S_{ff}$ denotes the PSD of the forcing function $F(t)$. The notation $|H(j\omega)|^2$ is the square of the magnitude of the complex frequency response function. A more detailed derivation can be found in [Engineering Vibrations, Inman (2001)],[Random Vibrations, Spectral \& Wavelet Analysis, Newland (1993)], but here it is more important to study the results rather than the derivations. 
 
 
-\begin{example}
+\begin{example}[Response PSD under White-Noise Excitation]
 	Consider the following system
 	\begin{figure}[H]
 		\centering
@@ -1248,7 +1248,7 @@ and
 \end{equation} 
 When combined with equation \ref{eq:variance_for_S_O}, these integrals allow for the easy calculation of the expected values. 
 
-\begin{example}
+\begin{example}[Mean-Square Response to White Noise]
 	For system below, calculate the mean-square response of the system given that the the spectrum of the input force $F(t)$ is a perfect theoretical white noise.
 	\begin{figure}[H]
 		\centering
@@ -1330,7 +1330,7 @@ For stable systems, we we expect $\sigma > 0$ so, $\sigma = -|\sigma|$ as the po
 	\end{figure}
 
 
-\begin{example}
+\begin{example}[Partial Fractions with MATLAB]
 
 For the system in the S-domain expressed as,
 \begin{equation}

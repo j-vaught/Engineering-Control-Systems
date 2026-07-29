@@ -377,9 +377,7 @@ where
 
 System identification can be done through measuring performance indicators using Simulink.
 
-\begin{example}
-
-\textbf{SIMULINK Tutorial on Measuring Performance Indicators}
+\begin{example}[Second-Order Performance Indicators in Simulink]
 
 System identification can be done through measuring performance indicators using Simulink. Consider a 2\textsuperscript{nd}-order system with $k=700$ N/m, $c=15$ kg/s, and $m=7$ kg. To implement this in Simulink, one could use MATLAB to generate the transfer function:
 
@@ -528,7 +526,7 @@ Logarithmic decrement ($\zeta \ll 1$) For a vibrating system, the mass ($m$) and
 				c = \zeta 2\sqrt{km}
 			\end{equation}					
 
-\begin{example}
+\begin{example}[Damping from Logarithmic Decrement]
 			
 			Calculate the damping coefficient for the system with the measured amplitude as expressed below given that $m$ = 3 kg and $k$ = 43 N/m. Use $t_1$ = 1 sec, and $t_{n+1} =t_4=6$ sec. Use the peaks as marked in figure~\ref{fig:Logarithmic_decrement_with_noise}.
 
@@ -557,7 +555,7 @@ Logarithmic decrement ($\zeta \ll 1$) For a vibrating system, the mass ($m$) and
 \end{example}
 
 	
-\begin{example}
+\begin{example}[Vehicle Suspension Damping]
 
 			A vehicle wheel, tire, and suspension can be modeled as a SDOF spring and mass as depicted below: %The mass of the wheel and tire is measured to be 300 kg and its frequency of oscillation is observed to be 10 rad/sec. What is the stiffness of the wheel assembly?
 			
