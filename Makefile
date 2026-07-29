@@ -1,7 +1,9 @@
 PYTHON ?= python3
+TECTONIC ?= tectonic
 FIGURE_PIPELINE := scripts/figure_pipeline.py
 
-.PHONY: figure figure-specimens figures check-figures figure-review test-figures test
+.PHONY: figure figure-specimens figures check-figures figure-review test-figures \
+	book-typography-check test
 
 figure:
 	@if [ -z "$(FIGURE)" ]; then \
@@ -24,6 +26,22 @@ figure-review:
 
 test-figures:
 	$(PYTHON) $(FIGURE_PIPELINE) test-figures
+
+book-typography-check:
+	@mkdir -p build/book-typography
+	cd source_material/tests/typography && \
+		$(TECTONIC) typography_check.tex \
+		--outdir ../../../build/book-typography --keep-logs
+	@pdffonts build/book-typography/typography_check.pdf | \
+		grep -q "TeXGyreTermes-Regular"
+	@pdffonts build/book-typography/typography_check.pdf | \
+		grep -q "TeXGyreTermes-Bold"
+	@pdffonts build/book-typography/typography_check.pdf | \
+		grep -q "TeXGyreTermes-Italic"
+	@pdffonts build/book-typography/typography_check.pdf | \
+		grep -q "TeXGyreTermes-BoldItalic"
+	@pdffonts build/book-typography/typography_check.pdf | \
+		grep -q "TeXGyreTermesMath-Regular"
 
 test:
 	$(PYTHON) $(FIGURE_PIPELINE) test
