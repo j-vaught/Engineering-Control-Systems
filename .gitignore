@@ -9,3 +9,10 @@
 *.toc
 *.toc
 Control_Theory_in_Mechanical_Engineering.toc
+
+# Generated figure review galleries, test renderings, and build reports.
+/build/
+
+# Python orchestration bytecode.
+__pycache__/
+*.py[cod]
