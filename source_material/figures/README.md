@@ -17,6 +17,54 @@ template uses:
 The 2 pt margin is a safety area for strokes, labels, and arrowheads. Do not
 override the page size or margin in an individual figure.
 
+## Natural-size width profiles
+
+Figures are authored at their intended final width so LaTeX does not have to
+shrink the text, strokes, or markers:
+
+- **Full width:** 160 mm
+- **Half width:** 80 mm
+
+These deliberately rounded dimensions fit within the book's approximately
+165 mm text block. Two 80 mm figures also fit side by side with approximately
+5 mm left for separation. The PDF MediaBox includes the 2 pt safety margin, so
+the generated file—not just its plot area—is exactly 160 mm or 80 mm wide.
+
+Every plot declares its intended output width in a pipeline comment and passes
+the same profile to `book-diagram`:
+
+```typst
+#import "/styles/figure.typ": *
+
+// figure-pipeline: kind=plot
+// figure-pipeline: width-profile=full
+#standalone[
+  #book-diagram(
+    size: "full",
+    // Lilaq axes and series.
+  )
+]
+```
+
+Use `size: "half"` with `width-profile=half` for a standalone half-width plot.
+Both profiles keep the shared 9 pt typography and stroke dimensions; half-width
+figures contain less horizontal plotting space rather than a scaled-down copy
+of a full-width figure.
+
+The `panel` plot size is reserved for panels composed inside one full-width
+160 mm PDF. Two panel columns use an 8 mm internal gutter. If panels require
+separate LaTeX subcaptions, export them as separate 80 mm PDFs instead.
+
+In LaTeX, normally import these files at natural size:
+
+```latex
+\includegraphics{path/to/figure.pdf}
+```
+
+Avoid compiling a full-width figure and then setting
+`\includegraphics[width=0.5\textwidth]{...}`; that also halves its fonts and
+strokes. Explicit LaTeX scaling remains useful only for exceptional layouts.
+
 ## Requirements
 
 The supported toolchain is:
@@ -165,7 +213,9 @@ disable the mirrors.
 
 Declare quantitative figures with `figure-pipeline: kind=plot`. The policy
 check requires every plot-classified source to call `book-diagram`; a raw CeTZ
-axes-and-curve replacement will not satisfy that classification.
+axes-and-curve replacement will not satisfy that classification. It also
+requires a `width-profile=full|half` declaration and verifies that the
+generated PDF has the corresponding 160 mm or 80 mm MediaBox width.
 The shared series cycle combines semantic colors with solid, dashed, dash-dot,
 and dotted strokes so plots remain distinguishable in grayscale.
 

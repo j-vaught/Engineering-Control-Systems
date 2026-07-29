@@ -1,12 +1,12 @@
 #import "/styles/figure.typ": *
 
 // figure-pipeline: kind=plot
+// figure-pipeline: width-profile=half
 #let times = range(81).map(index => index / 10)
 
 #standalone[
   #book-diagram(
-    width: plot-width,
-    height: plot-height,
+    size: "half",
     xlabel: $t slash tau$,
     ylabel: $y(t) / y_infinity$,
     xlim: (0, 8),

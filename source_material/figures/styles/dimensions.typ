@@ -1,5 +1,19 @@
 #let figure-page-margin = 2pt
 
+#let figure-full-width = 160mm
+#let figure-half-width = 80mm
+
+#let figure-content-width(profile) = {
+  let final-width = if profile == "full" {
+    figure-full-width
+  } else if profile == "half" {
+    figure-half-width
+  } else {
+    panic("unknown figure width profile: " + repr(profile))
+  }
+  final-width - 2 * figure-page-margin
+}
+
 #let line-hairline = 0.4pt
 #let line-normal = 0.75pt
 #let line-emphasis = 1.1pt
@@ -23,10 +37,17 @@
 #let mechanics-spring-amplitude = 0.28
 #let mechanics-support-hatch = 0.32
 
-#let plot-width = 108mm
-#let plot-height = 62mm
-#let plot-panel-width = 53mm
-#let plot-panel-height = 36mm
+#let plot-full-width = 0% + figure-content-width("full")
+#let plot-half-width = 0% + figure-content-width("half")
+#let plot-full-height = 80mm
+#let plot-half-height = 40mm
+
+#let plot-panel-gutter = 8mm
+#let plot-panel-width = (
+  0% + (figure-content-width("full") - plot-panel-gutter) / 2
+)
+#let plot-panel-height = 40mm
+
 #let plot-stroke-width = 1.05pt
 #let plot-axis-width = 0.7pt
 #let plot-grid-width = 0.35pt

@@ -67,13 +67,23 @@
   thickness: line-hairline,
 )
 
+#let _plot-profile(size) = {
+  if size == "full" {
+    (width: plot-full-width, height: plot-full-height)
+  } else if size == "half" {
+    (width: plot-half-width, height: plot-half-height)
+  } else if size == "panel" {
+    (width: plot-panel-width, height: plot-panel-height)
+  } else {
+    panic("unknown plot size profile: " + repr(size))
+  }
+}
+
 #let _framed-plot-theme(body) = {
   // Use Lilaq's conventional framed layout for the book's quantitative plots.
   // Bottom and left axes carry the ticks and labels; tickless mirrors close the
   // top and right sides into a clean rectangular data frame.
   show: lq.set-diagram(
-    width: plot-width,
-    height: plot-height,
     cycle: book-plot-cycle,
     fill: color-background,
     bounds: "strict",
@@ -102,7 +112,17 @@
   body
 }
 
-#let book-diagram(..args) = _framed-plot-theme(lq.diagram(..args))
+#let book-diagram(size: "full", height: none, ..args) = {
+  let profile = _plot-profile(size)
+  let resolved-height = if height == none { profile.height } else { height }
+  _framed-plot-theme(
+    lq.diagram(
+      width: profile.width,
+      height: resolved-height,
+      ..args,
+    )
+  )
+}
 
 #let book-layout(body) = {
   show: lq.layout

@@ -1,6 +1,7 @@
 #import "/styles/figure.typ": *
 
 // figure-pipeline: kind=plot
+// figure-pipeline: width-profile=full
 #let times = range(161).map(index => index / 20)
 
 #let response(zeta, time) = {
@@ -13,8 +14,7 @@
 
 #standalone[
   #book-diagram(
-    width: plot-width,
-    height: plot-height,
+    size: "full",
     xlabel: $omega_n t$,
     ylabel: $y(t) / y_infinity$,
     xlim: (0, 8),

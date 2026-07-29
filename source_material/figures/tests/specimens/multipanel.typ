@@ -1,6 +1,7 @@
 #import "/styles/figure.typ": *
 
 // figure-pipeline: kind=plot
+// figure-pipeline: width-profile=full
 #let times = range(61).map(index => index / 10)
 #let oscillation-times = range(301).map(index => index / 50)
 
@@ -8,11 +9,10 @@
   #book-layout(
     grid(
       columns: 2,
-      column-gutter: 8mm,
+      column-gutter: plot-panel-gutter,
       row-gutter: 7mm,
       book-diagram(
-        width: plot-panel-width,
-        height: plot-panel-height,
+        size: "panel",
         xlabel: $t$,
         ylabel: $u(t - 1)$,
         xlim: (0, 6),
@@ -20,8 +20,7 @@
         plot(times, time => if time < 1 { 0 } else { 1 }, step: end),
       ),
       book-diagram(
-        width: plot-panel-width,
-        height: plot-panel-height,
+        size: "panel",
         xlabel: $t$,
         ylabel: $(t - 1) u(t - 1)$,
         xlim: (0, 6),
@@ -29,8 +28,7 @@
         plot(times, time => calc.max(0, time - 1)),
       ),
       book-diagram(
-        width: plot-panel-width,
-        height: plot-panel-height,
+        size: "panel",
         xlabel: $t$,
         ylabel: $x(t)$,
         xlim: (0, 6),
@@ -38,8 +36,7 @@
         plot(times, time => calc.exp(-time)),
       ),
       book-diagram(
-        width: plot-panel-width,
-        height: plot-panel-height,
+        size: "panel",
         xlabel: $t$,
         ylabel: $x(t)$,
         xlim: (0, 6),

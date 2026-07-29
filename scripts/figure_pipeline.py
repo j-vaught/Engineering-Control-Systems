@@ -58,7 +58,12 @@ FIGURE_KIND_RE = re.compile(
     r"figure-pipeline:\s*kind\s*=\s*([a-z-]+)",
     re.IGNORECASE,
 )
+WIDTH_PROFILE_RE = re.compile(
+    r"figure-pipeline:\s*width-profile\s*=\s*([a-z-]+)",
+    re.IGNORECASE,
+)
 FIGURE_KINDS = {"diagram", "mechanics", "plot", "style", "test"}
+WIDTH_PROFILES_MM = {"full": 160.0, "half": 80.0}
 WARNING_RE = re.compile(
     r"(missing\s+glyph|glyph\b.*\bnot\s+found|font\b.*\bnot\s+found|"
     r"substitut(?:e|ed|ing)\b.*\bfont|\berror\b)",
@@ -99,6 +104,7 @@ class PdfReport:
     height_pt: float | None = None
     width_in: float | None = None
     height_in: float | None = None
+    width_profile: str | None = None
     font_count: int = 0
     fonts_embedded: bool = False
     no_type3_fonts: bool = False
@@ -410,6 +416,23 @@ def policy_errors() -> list[str]:
                     f"{relative}: plot titles belong in LaTeX captions; "
                     "do not set Lilaq's title field"
                 )
+            if figure_kind == "plot":
+                width_profiles = WIDTH_PROFILE_RE.findall(content)
+                if not width_profiles:
+                    errors.append(
+                        f"{relative}: plot figures must declare "
+                        "'figure-pipeline: width-profile=full|half'"
+                    )
+                elif len(width_profiles) > 1:
+                    errors.append(
+                        f"{relative}: declare exactly one figure-pipeline "
+                        "width profile"
+                    )
+                elif width_profiles[0].lower() not in WIDTH_PROFILES_MM:
+                    errors.append(
+                        f"{relative}: unknown figure-pipeline width profile "
+                        f"'{width_profiles[0]}'"
+                    )
 
     if allowed_page.exists():
         figure_style = strip_typst_comments(allowed_page.read_text(encoding="utf-8"))
@@ -531,6 +554,14 @@ def source_expected_size(source: Path) -> tuple[float, float] | None:
     return float(match.group(1)), float(match.group(2))
 
 
+def source_width_profile(source: Path) -> str | None:
+    matches = WIDTH_PROFILE_RE.findall(source.read_text(encoding="utf-8"))
+    if len(matches) != 1:
+        return None
+    profile = matches[0].lower()
+    return profile if profile in WIDTH_PROFILES_MM else None
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -546,6 +577,7 @@ def validate_pdf(figure: Figure) -> PdfReport:
         source=figure.source.relative_to(REPO_ROOT).as_posix(),
         pdf=figure.output.relative_to(REPO_ROOT).as_posix(),
     )
+    report.width_profile = source_width_profile(figure.source)
     pdf = figure.output
     if not pdf.is_file():
         report.errors.append(f"missing generated PDF: {report.pdf}")
@@ -562,6 +594,15 @@ def validate_pdf(figure: Figure) -> PdfReport:
         report.height_pt = round(height, 4)
         report.width_in = round(width / 72.0, 4)
         report.height_in = round(height / 72.0, 4)
+        if report.width_profile is not None:
+            expected_width_mm = WIDTH_PROFILES_MM[report.width_profile]
+            expected_width_pt = expected_width_mm * 72.0 / 25.4
+            if abs(width - expected_width_pt) > SIZE_TOLERANCE_PT:
+                actual_width_mm = width * 25.4 / 72.0
+                report.errors.append(
+                    f"{report.width_profile} width profile requires "
+                    f"{expected_width_mm:.0f}mm, found {actual_width_mm:.3f}mm"
+                )
         if pages != 1:
             report.errors.append(f"expected exactly one page, found {pages}")
         paper_sizes = {
@@ -886,6 +927,7 @@ def write_gallery(
             and report.height_in is not None
             else "unavailable"
         )
+        width_profile = report.width_profile or "natural"
         errors_html = ""
         if report.errors:
             errors_html = "<ul class=\"errors\">" + "".join(
@@ -906,6 +948,7 @@ def write_gallery(
   <dl>
     <dt>Status</dt><dd>{status_label(report)}</dd>
     <dt>Kind</dt><dd>{html.escape(report.kind)}</dd>
+    <dt>Width profile</dt><dd>{html.escape(width_profile)}</dd>
     <dt>MediaBox</dt><dd>{html.escape(dimensions)}</dd>
     <dt>Pages</dt><dd>{report.pages if report.pages is not None else 'unknown'}</dd>
     <dt>Fonts</dt><dd>{report.font_count}; embedded: {report.fonts_embedded}; Type 3 free: {report.no_type3_fonts}</dd>
@@ -930,6 +973,7 @@ def write_gallery(
                 "",
                 f"- Source: [{report.source}]({source_url})",
                 f"- PDF: [{report.pdf}]({pdf_url})",
+                f"- Width profile: {width_profile}",
                 f"- MediaBox: {dimensions}",
                 f"- Pages: {report.pages if report.pages is not None else 'unknown'}",
                 f"- Fonts embedded: {report.fonts_embedded}; Type 3 free: {report.no_type3_fonts}",

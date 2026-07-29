@@ -1,9 +1,10 @@
 #import "/styles/figure.typ": *
 
 // figure-pipeline: kind=plot
+// figure-pipeline: width-profile=half
 #standalone[
   #book-diagram(
-    width: 76mm,
+    size: "half",
     height: auto,
     aspect-ratio: 1,
     xlim: (-5, 1),
