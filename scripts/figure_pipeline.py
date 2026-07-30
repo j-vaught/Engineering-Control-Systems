@@ -295,6 +295,34 @@ def strip_typst_comments(text: str) -> str:
     return re.sub(r"//.*?$", "", text, flags=re.MULTILINE)
 
 
+def uses_book_diagram(source: Path, code: str, visited: set[Path] | None = None) -> bool:
+    """Return whether a figure or one of its local imports uses book-diagram."""
+    if re.search(r"(?<![A-Za-z0-9_.-])book-diagram\s*\(", code):
+        return True
+
+    visited = set() if visited is None else visited
+    resolved_source = source.resolve()
+    if resolved_source in visited:
+        return False
+    visited.add(resolved_source)
+
+    for imported in re.findall(
+        r"#\s*import\s+[\"'](/[^\"']+\.typ)[\"']",
+        code,
+    ):
+        dependency = (FIGURE_ROOT / imported.lstrip("/")).resolve()
+        if not dependency.is_relative_to(FIGURE_ROOT.resolve()):
+            continue
+        if not dependency.is_file():
+            continue
+        dependency_code = strip_typst_comments(
+            dependency.read_text(encoding="utf-8")
+        )
+        if uses_book_diagram(dependency, dependency_code, visited):
+            return True
+    return False
+
+
 def policy_errors() -> list[str]:
     errors: list[str] = []
     typst_sources = sorted(FIGURE_ROOT.rglob("*.typ")) if FIGURE_ROOT.exists() else []
@@ -422,10 +450,7 @@ def policy_errors() -> list[str]:
                 errors.append(
                     f"{relative}: figure sources may not redefine standalone"
                 )
-            if figure_kind == "plot" and not re.search(
-                r"(?<![A-Za-z0-9_.-])book-diagram\s*\(",
-                code,
-            ):
+            if figure_kind == "plot" and not uses_book_diagram(source, code):
                 errors.append(
                     f"{relative}: plot figures must use book-diagram so "
                     "the shared Lilaq theme is mandatory"
