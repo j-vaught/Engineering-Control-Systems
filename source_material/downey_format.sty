@@ -27,6 +27,7 @@
 \usepackage{xcolor}
 \definecolor{GarnetRose}{HTML}{8B3A4A}
 \definecolor{DeepTeal}{HTML}{005F73}
+\definecolor{ProofGreen}{HTML}{3F6B57}
 \definecolor{Graphite}{HTML}{25282A}
 \definecolor{Slate}{HTML}{50565B}
 \definecolor{CoolGrey}{HTML}{7B858C}
@@ -175,7 +176,7 @@
     colback=ReviewSurface,
     colframe=CoolGrey,
     boxrule=0.65pt,
-    borderline west={3pt}{0pt}{GarnetRose},
+    borderline west={3pt}{0pt}{ProofGreen},
     left=13pt,
     right=13pt,
     top=10pt,
@@ -183,7 +184,7 @@
     before skip=15pt,
     after skip=19pt,
     title={
-      \textcolor{GarnetRose}{\bfseries\footnotesize PROOF}
+      \textcolor{ProofGreen}{\bfseries\footnotesize PROOF}
       \ifstrempty{#1}{}{
         \hspace{0.55em}\textcolor{Graphite}{\bfseries #1}
       }
@@ -322,8 +323,6 @@
 \newcommand{\Laplace}[1]{\ensuremath{\mathcal{L}{\left[#1\right]}}}
 \newcommand{\InvLap}[1]{\ensuremath{\mathcal{L}^{-1}{\left[#1\right]}}}
 \renewcommand{\textuparrow}{$\uparrow$}
-
-
 
 
 
