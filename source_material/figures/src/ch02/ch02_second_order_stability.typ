@@ -138,6 +138,12 @@
         subticks: none,
         ticks: pole-yticks.map(value => (value, fixed-y-label(value))),
       ),
+      vlines(
+        -0.5,
+        0.5,
+        stroke: plot-grid-stroke,
+        z-index: 0,
+      ),
       vlines(0, stroke: (paint: color-ink, thickness: line-normal)),
       hlines(0, stroke: (paint: color-ink, thickness: line-normal)),
       scatter(
