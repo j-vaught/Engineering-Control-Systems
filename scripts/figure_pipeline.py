@@ -62,7 +62,7 @@ WIDTH_PROFILE_RE = re.compile(
     r"figure-pipeline:\s*width-profile\s*=\s*([a-z-]+)",
     re.IGNORECASE,
 )
-FIGURE_KINDS = {"diagram", "mechanics", "plot", "style", "test"}
+FIGURE_KINDS = {"diagram", "mechanics", "plot", "surface", "style", "test"}
 WIDTH_PROFILES_MM = {"full": 160.0, "half": 80.0}
 WARNING_RE = re.compile(
     r"(missing\s+glyph|glyph\b.*\bnot\s+found|font\b.*\bnot\s+found|"
@@ -374,7 +374,8 @@ def policy_errors() -> list[str]:
             if not kind_matches:
                 errors.append(
                     f"{relative}: declare a figure classification with "
-                    "'figure-pipeline: kind=plot|diagram|mechanics|style|test'"
+                    "'figure-pipeline: "
+                    "kind=plot|surface|diagram|mechanics|style|test'"
                 )
                 figure_kind = None
             elif len(kind_matches) > 1:
@@ -415,16 +416,34 @@ def policy_errors() -> list[str]:
                     f"{relative}: plot figures must use book-diagram so "
                     "the shared Lilaq theme is mandatory"
                 )
-            if figure_kind == "plot" and re.search(r"\btitle\s*:", code):
+            if figure_kind == "surface":
+                if not re.search(
+                    r"#\s*import\s+[\"']@preview/plotsy-3d:0\.2\.1[\"']",
+                    code,
+                ):
+                    errors.append(
+                        f"{relative}: surface figures must import the pinned "
+                        "Plotsy 3D 0.2.1 package"
+                    )
+                if not re.search(
+                    r"\bplot-3d-(?:surface|parametric-surface)\s*\(",
+                    code,
+                ):
+                    errors.append(
+                        f"{relative}: surface figures must use a Plotsy 3D "
+                        "surface constructor"
+                    )
+            if figure_kind in {"plot", "surface"} and re.search(
+                r"\btitle\s*:", code
+            ):
                 errors.append(
-                    f"{relative}: plot titles belong in LaTeX captions; "
-                    "do not set Lilaq's title field"
+                    f"{relative}: plot titles belong in LaTeX captions"
                 )
-            if figure_kind == "plot":
+            if figure_kind in {"plot", "surface"}:
                 width_profiles = WIDTH_PROFILE_RE.findall(content)
                 if not width_profiles:
                     errors.append(
-                        f"{relative}: plot figures must declare "
+                        f"{relative}: quantitative figures must declare "
                         "'figure-pipeline: width-profile=full|half'"
                     )
                 elif len(width_profiles) > 1:

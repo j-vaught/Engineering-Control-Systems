@@ -185,7 +185,7 @@ modules. Hard-coded RGB or hexadecimal colors outside `styles/colors.typ` are
 rejected by `make check-figures`. Fixed page dimensions and unpinned Typst
 package imports are rejected as well. Every source must declare exactly one
 classification in a `figure-pipeline: kind=...` comment. Supported kinds are
-`plot`, `diagram`, `mechanics`, `style`, and `test`.
+`plot`, `surface`, `diagram`, `mechanics`, `style`, and `test`.
 
 After adding or changing a figure:
 
@@ -199,7 +199,7 @@ Use lowercase kebab-case names and give the source and PDF identical stems.
 
 ## Lilaq-only plots
 
-Lilaq is mandatory for every quantitative plot. Only
+Lilaq is mandatory for every two-dimensional quantitative plot. Only
 `styles/plots.typ` may import `@preview/lilaq:0.6.0`, and production sources
 must not call `lq.diagram` directly. Use the shared plot interface exported by
 `figure.typ`, especially `book-diagram`, so axes, labels, legends, colors, and
@@ -218,6 +218,13 @@ requires a `width-profile=full|half` declaration and verifies that the
 generated PDF has the corresponding 160 mm or 80 mm MediaBox width.
 The shared series cycle combines semantic colors with solid, dashed, dash-dot,
 and dotted strokes so plots remain distinguishable in grayscale.
+
+Three-dimensional mathematical surfaces are the narrow exception because
+Lilaq does not provide a 3D surface constructor. Declare these as
+`figure-pipeline: kind=surface`; the policy then requires the pinned
+`@preview/plotsy-3d:0.2.1` import and a Plotsy 3D surface constructor. Surface
+figures retain the same width-profile, shared color, typography, standalone
+page, and caption policies as Lilaq plots.
 
 Do not set Lilaq's `title:` field in a plot source. Plot titles belong in the
 LaTeX `\caption{...}` so numbering, typography, spacing, and the list of
