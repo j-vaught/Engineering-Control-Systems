@@ -1,4 +1,5 @@
 #import "@preview/lilaq:0.6.0" as lq
+#import "@preview/tiptoe:0.4.0" as tiptoe
 #import "colors.typ": *
 #import "dimensions.typ": *
 
@@ -14,6 +15,7 @@
 #let place = lq.place
 #let linspace = lq.linspace
 #let arange = lq.arange
+#let plot-stealth-tip = tiptoe.stealth
 
 #let _book-plot-cycle-entry(color, dash: none) = {
   let line-stroke = (
