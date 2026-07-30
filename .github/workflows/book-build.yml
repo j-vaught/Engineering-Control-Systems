@@ -2,6 +2,9 @@ name: Full book build
 
 on:
   pull_request:
+  push:
+    branches:
+      - "agent/pr-*"
   workflow_dispatch:
 
 permissions:
@@ -34,6 +37,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends \
             fonts-texgyre \
+            fonts-texgyre-math \
             poppler-utils
 
       - name: Record tool versions
@@ -42,18 +46,18 @@ jobs:
           pdfinfo -v
 
       - name: Compile the complete textbook
-        working-directory: source_material
         run: |
-          rm -f Engineering_Control_Systems.pdf
-          tectonic Engineering_Control_Systems.tex --keep-logs
-          test -s Engineering_Control_Systems.pdf
-          pdfinfo Engineering_Control_Systems.pdf
+          make book-check
+          make book-typography-check
+          pdfinfo build/book/Engineering_Control_Systems.pdf
 
       - name: Upload compiled textbook
         uses: actions/upload-artifact@v7
         with:
           name: engineering-control-systems-pdf
-          path: source_material/Engineering_Control_Systems.pdf
+          path: |
+            build/book/Engineering_Control_Systems.pdf
+            build/book-typography/typography_check.pdf
           if-no-files-found: error
           retention-days: 30
 
@@ -62,6 +66,8 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: engineering-control-systems-build-log
-          path: source_material/Engineering_Control_Systems.log
+          path: |
+            build/book/Engineering_Control_Systems.log
+            build/book-typography/typography_check.log
           if-no-files-found: warn
           retention-days: 30
