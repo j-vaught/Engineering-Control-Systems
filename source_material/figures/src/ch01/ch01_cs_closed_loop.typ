@@ -44,19 +44,19 @@
             (0, 0),
             "sum",
             stroke: diagram-signal-style.stroke,
-            mark: (fill: color-input, ..arrow-medium),
+            mark: (fill: color-secondary, ..arrow-medium),
           )
           draw.line(
             "sum",
             "controller",
             stroke: diagram-internal-style.stroke,
-            mark: (fill: color-slate, ..arrow-medium),
+            mark: (fill: color-on-light, ..arrow-medium),
           )
           draw.line(
             "controller",
             "process",
             stroke: diagram-internal-style.stroke,
-            mark: (fill: color-slate, ..arrow-medium),
+            mark: (fill: color-on-light, ..arrow-medium),
           )
           draw.line(
             "process",
@@ -67,21 +67,21 @@
             "takeoff",
             (153, 0),
             stroke: diagram-output-style.stroke,
-            mark: (fill: color-output, ..arrow-medium),
+            mark: (fill: color-secondary, ..arrow-medium),
           )
           draw.line(
             "takeoff",
             (129, -18),
             "sensor",
             stroke: diagram-internal-style.stroke,
-            mark: (fill: color-slate, ..arrow-medium),
+            mark: (fill: color-on-light, ..arrow-medium),
           )
           draw.line(
             "sensor",
             (24, -18),
             "sum",
             stroke: diagram-internal-style.stroke,
-            mark: (fill: color-slate, ..arrow-medium),
+            mark: (fill: color-on-light, ..arrow-medium),
           )
 
           draw.content((10.5, 4.8), [Input $r(t)$])

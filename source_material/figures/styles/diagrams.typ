@@ -5,9 +5,9 @@
 // control of placement and routing and use CeTZ's native named anchors.
 
 #let diagram-block-style = (
-  fill: color-surface,
+  fill: color-surface-strong,
   stroke: (
-    paint: color-border,
+    paint: color-on-light,
     thickness: line-normal,
     cap: "square",
     join: "miter",
@@ -54,13 +54,13 @@
 
 #let diagram-signal-style = (
   stroke: (
-    paint: color-primary,
+    paint: color-secondary,
     thickness: line-emphasis,
     cap: "butt",
     join: "miter",
   ),
   mark: (
-    fill: color-primary,
+    fill: color-secondary,
     ..arrow-small,
   ),
 )
@@ -80,13 +80,13 @@
 
 #let diagram-internal-style = (
   stroke: (
-    paint: color-slate,
+    paint: color-on-light,
     thickness: line-emphasis,
     cap: "butt",
     join: "miter",
   ),
   mark: (
-    fill: color-slate,
+    fill: color-on-light,
     ..arrow-small,
   ),
 )

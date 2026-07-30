@@ -27,19 +27,19 @@
             (2, 0),
             "actuator",
             stroke: diagram-signal-style.stroke,
-            mark: (fill: color-input, ..arrow-medium),
+            mark: (fill: color-secondary, ..arrow-medium),
           )
           draw.line(
             "actuator",
             "process",
             stroke: diagram-internal-style.stroke,
-            mark: (fill: color-slate, ..arrow-medium),
+            mark: (fill: color-on-light, ..arrow-medium),
           )
           draw.line(
             "process",
             (156, 0),
             stroke: diagram-output-style.stroke,
-            mark: (fill: color-output, ..arrow-medium),
+            mark: (fill: color-secondary, ..arrow-medium),
           )
 
           draw.content((51, 0), align(center)[Actuating\ device])

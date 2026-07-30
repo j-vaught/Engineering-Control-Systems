@@ -21,13 +21,13 @@
             (1, 0),
             "process",
             stroke: diagram-signal-style.stroke,
-            mark: (fill: color-input, ..arrow-medium),
+            mark: (fill: color-secondary, ..arrow-medium),
           )
           draw.line(
             "process",
             (77, 0),
             stroke: diagram-output-style.stroke,
-            mark: (fill: color-output, ..arrow-medium),
+            mark: (fill: color-secondary, ..arrow-medium),
           )
 
           draw.content((39, 0), [Process])
