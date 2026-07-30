@@ -136,6 +136,68 @@
   \end{tcolorbox}
 }
 
+\newenvironment{booknote}[1][]{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=ExampleSurface,
+    colframe=CoolGrey,
+    boxrule=0.65pt,
+    borderline west={3pt}{0pt}{DeepTeal},
+    left=13pt,
+    right=13pt,
+    top=10pt,
+    bottom=10pt,
+    before skip=15pt,
+    after skip=19pt,
+    title={
+      \textcolor{DeepTeal}{\bfseries\footnotesize NOTE}
+      \ifstrempty{#1}{}{
+        \hspace{0.55em}\textcolor{Graphite}{\bfseries #1}
+      }
+    },
+    coltitle=Graphite,
+    fonttitle=\normalsize,
+    attach title to upper,
+    after title={\par\vspace{7pt}},
+  ]
+  \normalfont
+}{
+  \end{tcolorbox}
+}
+
+\newenvironment{bookproof}[1][]{
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=ReviewSurface,
+    colframe=CoolGrey,
+    boxrule=0.65pt,
+    borderline west={3pt}{0pt}{GarnetRose},
+    left=13pt,
+    right=13pt,
+    top=10pt,
+    bottom=10pt,
+    before skip=15pt,
+    after skip=19pt,
+    title={
+      \textcolor{GarnetRose}{\bfseries\footnotesize PROOF}
+      \ifstrempty{#1}{}{
+        \hspace{0.55em}\textcolor{Graphite}{\bfseries #1}
+      }
+    },
+    coltitle=Graphite,
+    fonttitle=\normalsize,
+    attach title to upper,
+    after title={\par\vspace{7pt}},
+  ]
+  \normalfont
+}{
+  \end{tcolorbox}
+}
+
 \newcounter{examplestep}
 \providecommand{\theHexamplestep}{\theex.\arabic{examplestep}}
 \newcommand{\examplestep}[1]{
@@ -260,7 +322,6 @@
 \newcommand{\Laplace}[1]{\ensuremath{\mathcal{L}{\left[#1\right]}}}
 \newcommand{\InvLap}[1]{\ensuremath{\mathcal{L}^{-1}{\left[#1\right]}}}
 \renewcommand{\textuparrow}{$\uparrow$}
-
 
 
 
