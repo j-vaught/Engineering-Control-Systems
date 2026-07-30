@@ -42,7 +42,9 @@
     width: auto,
     height: auto,
     margin: figure-page-margin,
-    fill: color-background,
+    // Keep the standalone PDF page transparent so figures inherit the
+    // surrounding LaTeX page, example-box, or review-gallery background.
+    fill: none,
   )
   figure-typography(body)
 }
