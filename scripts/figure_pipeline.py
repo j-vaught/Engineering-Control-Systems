@@ -63,7 +63,7 @@ WIDTH_PROFILE_RE = re.compile(
     re.IGNORECASE,
 )
 FIGURE_KINDS = {"diagram", "mechanics", "plot", "surface", "style", "test"}
-WIDTH_PROFILES_MM = {"full": 160.0, "half": 80.0}
+WIDTH_PROFILES_MM = {"full": 160.0, "half": 80.0, "page": 163.9}
 WARNING_RE = re.compile(
     r"(missing\s+glyph|glyph\b.*\bnot\s+found|font\b.*\bnot\s+found|"
     r"substitut(?:e|ed|ing)\b.*\bfont|\berror\b)",
@@ -357,6 +357,20 @@ def policy_errors() -> list[str]:
                     f"{relative}: hard-coded hex colors are prohibited outside styles/colors.typ"
                 )
 
+        if figure is not None:
+            for match in re.finditer(
+                r"(?:#?\s*set\s+text|(?<![A-Za-z0-9_.-])text)"
+                r"\s*\([^)]*?\bsize\s*:\s*([0-9]+(?:\.[0-9]+)?)pt\b",
+                code,
+                flags=re.DOTALL,
+            ):
+                size_points = float(match.group(1))
+                if size_points < 8.0:
+                    errors.append(
+                        f"{relative}: literal text size {size_points:g}pt is "
+                        "below the 8pt production-figure minimum"
+                    )
+
         if source.resolve() != allowed_page.resolve():
             if re.search(r"#?\s*set\s+page\s*\(", code):
                 errors.append(
@@ -444,7 +458,7 @@ def policy_errors() -> list[str]:
                 if not width_profiles:
                     errors.append(
                         f"{relative}: quantitative figures must declare "
-                        "'figure-pipeline: width-profile=full|half'"
+                        "'figure-pipeline: width-profile=full|half|page'"
                     )
                 elif len(width_profiles) > 1:
                     errors.append(
