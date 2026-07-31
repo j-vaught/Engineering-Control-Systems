@@ -2,8 +2,15 @@ PYTHON ?= python3
 TECTONIC ?= tectonic
 FIGURE_PIPELINE := scripts/figure_pipeline.py
 
-.PHONY: figure figure-specimens figures check-figures figure-review test-figures \
+.PHONY: book figure figure-specimens figures check-figures figure-review test-figures \
 	book-typography-check test
+
+book:
+	@mkdir -p build/book
+	cd source_material && \
+		$(TECTONIC) Engineering_Control_Systems.tex \
+		--outdir ../build/book --keep-logs
+	@echo "built build/book/Engineering_Control_Systems.pdf"
 
 figure:
 	@if [ -z "$(FIGURE)" ]; then \
